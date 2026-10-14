@@ -1,0 +1,10 @@
+{
+  "name": "app-store-creative-skill",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "App Store 创意素材的逐轮设计、生产与复现辅助工具",
+  "engines": { "node": ">=20" },
+  "dependencies": { "playwright": "1.62.1" }
+}

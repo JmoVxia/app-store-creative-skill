@@ -1,0 +1,108 @@
+{
+  "skill_version": "0.1.0",
+  "recorded_at": "2026-10-14T04:21:04.885446+00:00",
+  "environment": {
+    "node": "v23.11.0",
+    "platform": "darwin",
+    "release": "25.2.0",
+    "arch": "arm64",
+    "browser": "155.0.8059.40",
+    "browser_args": [
+      "--disable-gpu",
+      "--disable-skia-runtime-opts",
+      "--force-color-profile=srgb"
+    ],
+    "color_profile": "srgb",
+    "raster_mode": "stable-cpu",
+    "playwright": "1.62.1",
+    "python": "3.12",
+    "pillow": "12.3.0"
+  },
+  "approved_inputs": {
+    "count": 54,
+    "phone_tablet_screenshots": 48,
+    "horizontal_creatives": 6,
+    "format_checks": "passed",
+    "original_files_unchanged": true
+  },
+  "stable_cpu_repeat": {
+    "pairs": 6,
+    "rendered_files": 12,
+    "dimensions": [
+      5244,
+      2950
+    ],
+    "region": "full_canvas",
+    "changed_pixels": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "max_channel_delta": 0,
+    "status": "passed"
+  },
+  "historical_browser_replay": {
+    "pairs": 6,
+    "changed_pixels": [
+      10469,
+      25,
+      10918,
+      207,
+      6059,
+      0
+    ],
+    "max_channel_delta": 1,
+    "strict_zero_difference": false,
+    "status": "completed_with_minor_difference",
+    "note": "历史浏览器路径的回放仅有最多1色阶差异；不声明严格逐像素还原。不能把新CPU路径自动套用旧定稿。"
+  },
+  "failure_gates": {
+    "rendering": [
+      {
+        "id": "overflow",
+        "rejected": true
+      },
+      {
+        "id": "missing-image",
+        "rejected": true
+      },
+      {
+        "id": "missing-font",
+        "rejected": true
+      },
+      {
+        "id": "safe-area",
+        "rejected": true
+      }
+    ],
+    "paths": [
+      "existing_output",
+      "baseline_output",
+      "outside_project"
+    ],
+    "state": [
+      "refuse_init_overwrite",
+      "draft_cannot_snapshot",
+      "missing_user_evidence",
+      "source_hash_change",
+      "refuse_baseline_overwrite",
+      "snapshot_tamper",
+      "stale_parameter_confirmation",
+      "candidate_baseline_isolation"
+    ],
+    "status": "passed"
+  },
+  "cross_app": {
+    "status": "pending_user_project"
+  },
+  "not_performed": [
+    "新的App编译或测试",
+    "新的原生模拟器采集",
+    "App Store Connect提交",
+    "其他平台实证"
+  ],
+  "evidence_policy": "只公开去标识的验证统计；原素材、原件路径、完整测量和差异报告保存在本地工作区，不进入技能仓库。"
+}

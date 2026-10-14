@@ -1,0 +1,49 @@
+{
+  "skill_version": "0.1.0",
+  "updated_at": "2026-10-14T04:21:04.885446+00:00",
+  "checks": [
+    {
+      "id": "skill_structure",
+      "status": "passed"
+    },
+    {
+      "id": "original_project_replay",
+      "status": "completed_with_minor_difference",
+      "scope": "原项目既有横图 HTML 回放；原 iPhone／iPad 定稿只读检查，不修改原项目",
+      "approved_images_checked": 54,
+      "source_files_unchanged": true,
+      "historical_replay_max_channel_delta": 1,
+      "strict_pixel_identity": false
+    },
+    {
+      "id": "repeat_render",
+      "status": "passed",
+      "raster_mode": "stable-cpu",
+      "pairs": 6,
+      "changed_pixels": 0
+    },
+    {
+      "id": "failure_gates",
+      "status": "passed"
+    },
+    {
+      "id": "independent_app_trial",
+      "status": "pending_user_project",
+      "scope": "用户稍后提供不同类型 App；不得用合成演示代替跨 App 实证"
+    }
+  ],
+  "platforms": {
+    "iPhone": "首版重点，具体实证以 checks 为准",
+    "iPad": "首版重点，具体实证以 checks 为准",
+    "other_app_store_platforms": "not_validated"
+  },
+  "limitations": [
+    "没有通用原生 App 采集适配器；按具体项目和授权接入",
+    "没有在本版本运行新的 App 编译、测试或原生采集",
+    "自动检查不代替逐张视觉自审和用户确认",
+    "相同提示词重新生成 ImageGen 素材不保证一致",
+    "没有在 App Store Connect 提交或验证审核结果",
+    "历史浏览器路径回放有最多1色阶差异，严格零差异未通过；新CPU路径重复生产零差异，不代表与历史成图相同。"
+  ],
+  "evidence": "results.json"
+}

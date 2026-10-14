@@ -1,0 +1,6 @@
+interface:
+  display_name: "App Store 素材生产"
+  short_description: "通过逐轮示意与确认建立各 App 自己的标准，稳定生产多语言商店素材"
+  default_prompt: "使用 $app-store-creative-skill，先听我描述 App，再逐轮对齐并制作商店素材。"
+policy:
+  allow_implicit_invocation: true
