@@ -8,6 +8,8 @@ The skill does not prescribe an app's style, screenshot count, order or fixed la
 
 ## Workflow
 
+For rejected screenshots or targeted edits to an approved design, start with the [screenshot repair workflow (Chinese)](references/screenshot-repair.md). Bring the review message and existing set, then request one final-size PNG for the affected feature before expanding to other devices or languages.
+
 Listen to the user → clarify and confirm understanding → inspect supplied code, documents and assets → research comparable products and visual references → prepare localized copy and device constraints → compare overall directions → approve representative assets and refine related details → review the integrated design → produce approved variants → inspect every output and request final confirmation.
 
 Use modules as needed rather than restarting the entire process. Each round resolves a related group of decisions using questions, alternatives or visual samples. Preserve approvals, rejection reasons and dependencies. Keep approved baselines separate from candidates and reopen only affected decisions.

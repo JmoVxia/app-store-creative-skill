@@ -32,6 +32,7 @@
 
 启动时按目标位置核对 Apple 官方资料，保存 URL、核对日期、适用平台／位置、规格字段与项目决策：
 
+- [审核员如何按设备与本地化评估普通截图（2.3.3）](https://developer.apple.com/help/app-review/guideline-reference/2-3-3-screenshots)
 - [截图规格](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/)
 - [创意素材规格](https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications/)
 - [App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/)
