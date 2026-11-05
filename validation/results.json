@@ -104,5 +104,108 @@
     "App Store Connect提交",
     "其他平台实证"
   ],
-  "evidence_policy": "只公开去标识的验证统计；原素材、原件路径、完整测量和差异报告保存在本地工作区，不进入技能仓库。"
+  "evidence_policy": "只公开去标识的验证统计；原素材、原件路径、完整测量和差异报告保存在本地工作区，不进入技能仓库。",
+  "series_consistency_upgrade": {
+    "skill_version": "0.3.0",
+    "recorded_at": "2026-11-05",
+    "status": "passed",
+    "scope": "可选整套契约与通用图像验收工具；旧批次兼容。沿用项目既有阈值，未升级历史项目基准。",
+    "image_audit_cli": {
+      "cases": 33,
+      "passed": 33,
+      "coverage": [
+        "旧矩形接口",
+        "alpha与luminance及透明度",
+        "四角背景外溢",
+        "空选区拒绝",
+        "错误模式/尺寸/数值类型",
+        "冻结资源变化",
+        "矩阵缺失/多余/重复",
+        "字节与像素重复分别记录",
+        "多余符号链接不折叠",
+        "合法目录别名",
+        "越界路径/报告不覆盖"
+      ]
+    },
+    "html_renderer": {
+      "runs": 26,
+      "expected_results_matched": 26,
+      "coverage": [
+        "旧批次",
+        "组件矩形/样式/比例",
+        "selector零/多/重复命中",
+        "祖先变换",
+        "object-fit裁切/留白",
+        "分数尺寸显式容差",
+        "完整矩阵",
+        "全批次资源前置校验",
+        "本地灰度PNG遮罩",
+        "CSS资源失败拦截",
+        "文件遮罩与dataURI一致",
+        "重复出图字节一致"
+      ]
+    },
+    "existing_final_replay": {
+      "images": 48,
+      "masked_comparisons": 90,
+      "background_corner_edge_regions": 384,
+      "frozen_mask_resources": 6,
+      "passed": true,
+      "original_files_unchanged": true,
+      "scope": "只读复制既有成品后用通用审计脚本核格式、覆盖、固定机身、普通状态栏和外部背景；非新App运行或重新采集。"
+    },
+    "independent_forward_exercise": {
+      "status": "passed",
+      "scope": "独立实际执行演练；通用自编排版，不是真实App功能证据或跨App生产实证",
+      "combinations": 4,
+      "dom_components": 16,
+      "outside_corner_edge_regions": 32,
+      "source_mapping_max_channel_delta": 0,
+      "repeat_byte_identical": true,
+      "file_mask_byte_identical": true,
+      "discovered_and_fixed": [
+        "file:// CSS遮罩失败但只查DOM与img解码时会空屏误通过；新增本地文件访问支持和资源加载失败门禁"
+      ],
+      "environment": {
+        "node": "v23.11.0",
+        "platform": "darwin",
+        "release": "25.2.0",
+        "arch": "arm64",
+        "browser": "156.0.8078.80",
+        "browser_args": [
+          "--disable-gpu",
+          "--disable-skia-runtime-opts",
+          "--force-color-profile=srgb",
+          "--allow-file-access-from-files"
+        ],
+        "color_profile": "srgb",
+        "raster_mode": "stable-cpu"
+      },
+      "playwright": "1.62.1",
+      "human_visual_approval": "not_claimed"
+    },
+    "structure_and_static": {
+      "skill_creator_quick_validate": "passed",
+      "python_ast": "passed",
+      "node_syntax": "passed",
+      "json_and_local_reference_links": "passed",
+      "diff_whitespace": "passed"
+    },
+    "not_performed": [
+      "新的App编译或测试",
+      "新的原生模拟器采集",
+      "独立真实App生产实证",
+      "App Store Connect上传或审核验证"
+    ],
+    "evidence_policy": "只公开去标识统计；项目原件、完整PNG、私有路径和隔离演练产物均不进入技能仓库。",
+    "audit_environment": {
+      "python": "3.9.6",
+      "pillow": "11.3.0"
+    },
+    "tool_sha256": {
+      "scripts/render.mjs": "54574bfd187d0f0ebc10f285b9ff57e772ad2678eca0e15824e5d90ff17317de",
+      "scripts/audit_images.py": "ff032f46bcf5b973af2815d8a7d28bcc00f35c63f5070a27b7b0d114ded8dd14",
+      "scripts/project.py": "49d03f6826ed03f20f6a6b7b804862856858e2ca3bc51a933cc85d6d29eb5a08"
+    }
+  }
 }

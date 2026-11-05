@@ -10,12 +10,14 @@ The skill does not prescribe an app's style, screenshot count, order or fixed la
 
 Start with the benefit each page should communicate and the moment in the app that demonstrates it. Plan ordinary screenshots separately for each device and localization so that a clear majority will show the app in use. Use this storyboard to explore copy and visual directions.
 
-Lay out the shared HTML master, then prepare inputs and capture the app for the target device and language. Review one final-size PNG with real content before extending the design across the set. Recount the pages that show the app in use from the finished files, then inspect the full-size images and detail crops. Existing designs and review feedback enter at the earliest affected step. [Storyboarding](references/design-rounds.md) · [Production](references/material-production.md) · [Quality checks](references/quality.md)
+Define the series specification before laying out the shared HTML master, then prepare inputs and capture the app for the target device and language. Check the first final-size PNG against delivery standards, including corners, edges, proportions, spacing and complete controls, before extending the design across the set. Recount the pages that show the app in use from the finished files, then inspect the full-size images and detail crops. Existing designs and review feedback enter at the earliest affected step. [Storyboarding](references/design-rounds.md) · [Series consistency](references/series-consistency.md) · [Production](references/material-production.md) · [Quality checks](references/quality.md)
 
 - Screenshots, Header and Search Results share brand language but receive purpose-specific compositions.
 - Sources may include user assets, real app captures, scripts, ImageGen and internet resources. Track provenance and permitted usage. Never fabricate functional evidence.
 - Consider all target languages and devices early. Approve the master and risk-based samples before batch production; escalate adaptations outside approved rules.
 - Lock copy, fonts, layouts, assets and environment. Repeating an AI prompt does not guarantee the same image; reuse approved artwork.
+- Distinguish device housing, screen viewport, native workspace and authored-content spacing. Phone and tablet retain their own proportions and status bars. Check Apple's product-image rules when using realistic device bezels and freeze the chosen original; never let content escape the frame or stretch/crop controls to hide native differences.
+- Apply one parameter source and verification path to the full delivery matrix. Copied outputs and modification times are not validation. Check fixed layers, corner spill, empty masks, resource drift, missing pages and unintended duplicates, with explicit machine and visual coverage.
 - Check current official specifications at project start and before delivery. Existing projects do not silently adopt skill or tool updates.
 
 ## Install in Codex
@@ -45,8 +47,8 @@ The method itself needs no renderer installation. Check capabilities before prod
 | --- | --- |
 | Method and modules | `SKILL.md` and selectively loaded `references/` |
 | Project state, hashes and snapshots | Standard-library Python: `scripts/project.py` |
-| Local HTML batch rendering and layout measurements | Node.js / Playwright: `scripts/render.mjs` |
-| Image specifications and explicit region comparisons | Pillow: `scripts/audit_images.py` |
+| Local HTML rendering, matrix and component geometry/style/ratio constraints | Node.js / Playwright: `scripts/render.mjs` |
+| Image specifications, masked regions/background spill, coverage and resource hashes | Pillow: `scripts/audit_images.py` |
 | Native capture, processing engines, ImageGen | Adapt to the user's app and available tools; no private app adapter is bundled |
 
 For the included production tools, run in the skill directory:
@@ -74,6 +76,8 @@ Each app owns its specifications, review history, source assets, captures and ou
 See [validation/status.json](validation/status.json) for the original tool validation and limitations. Initial work focuses on macOS / Codex, original-project replay, image inspection and repeated rendering. The independent app trial is pending a user-provided project. Other platforms and app-specific capture adapters must not be described as verified without evidence.
 
 Current evidence: 54 existing approved images passed format checks; six horizontal creative pairs rendered through the fixed CPU path had zero changed pixels across the full canvas. Replay against historical browser outputs differed by at most one channel level, so strict historical pixel identity did not pass. Do not silently migrate existing projects to the new path. See [sanitized results](validation/results.json); original project assets are not included.
+
+Version 0.3.0 adds series-consistency guidance and optional tool contracts. All 33 image-audit cases and 26 isolated HTML runs matched expectations. The extended generic auditor replayed 48 existing final PNGs with 90 masked comparisons and 384 corner/edge checks. An independent two-device, two-language authored-layout exercise produced four combinations with byte-identical repeats and exposed a local CSS-mask failure that is now handled. This is not evidence of an independent real-app production run or store submission; project originals and private paths are excluded.
 
 Passing scripts does not establish visual quality or user approval. Report static checks, rendering, native capture, engine execution, builds/tests and store submission separately. Check Apple requirements for the actual target placement at delivery time.
 

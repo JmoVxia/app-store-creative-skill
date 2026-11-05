@@ -69,25 +69,79 @@ async function main() {
         job.safe_rect[0]+job.safe_rect[2] > job.width || job.safe_rect[1]+job.safe_rect[3] > job.height)) {
       throw new Error('无效 safe_rect');
     }
+    if (job.components !== undefined && !Array.isArray(job.components)) throw new Error('components 需要数组');
+    const componentIds = new Set(), componentSelectors = new Set();
+    for (const component of job.components ?? []) {
+      if (!component || typeof component.id !== 'string' || !component.id || componentIds.has(component.id) ||
+          typeof component.selector !== 'string' || !component.selector || componentSelectors.has(component.selector)) throw new Error('组件 ID 或 selector 缺失、无效或重复');
+      componentIds.add(component.id);
+      componentSelectors.add(component.selector);
+      if (!Array.isArray(component.rect) || component.rect.length !== 4 || component.rect.some(v => !Number.isFinite(v)) ||
+          component.rect[2] <= 0 || component.rect[3] <= 0) throw new Error('组件 rect 需要 [x,y,width,height]');
+      for (const key of ['tolerance_px', 'ratio_tolerance']) {
+        if (component[key] !== undefined && (!Number.isFinite(component[key]) || component[key] < 0)) throw new Error('无效组件容差: ' + key);
+      }
+      if (component.styles !== undefined && (!component.styles || typeof component.styles !== 'object' || Array.isArray(component.styles) ||
+          Object.entries(component.styles).some(([key, value]) => !key || typeof value !== 'string'))) throw new Error('组件 styles 需要 computed 样式字符串映射');
+      if (component.image_fit !== undefined && component.image_fit !== 'equal-ratio') throw new Error('image_fit 只支持 equal-ratio');
+    }
     const target = await local(job.output, true);
     if (outputs.has(target) || target === reportPath || await exists(target)) throw new Error('输出重复或已存在: ' + job.output);
     outputs.add(target);
     await fs.access(await local(job.html));
   }
-  const specifier = process.env.ASC_PLAYWRIGHT_MODULE;
-  const module = specifier ? await import(pathToFileURL(path.resolve(specifier)).href) : await import('playwright');
-  const playwright = module.chromium ? module : module.default;
   const rasterMode = batch.raster_mode ?? 'stable-cpu';
   if (!['stable-cpu', 'browser'].includes(rasterMode)) throw new Error('raster_mode 只支持 stable-cpu 或 browser');
   const browserArgs = rasterMode === 'stable-cpu'
-    ? ['--disable-gpu', '--disable-skia-runtime-opts', '--force-color-profile=srgb']
-    : ['--force-color-profile=srgb'];
+    ? ['--disable-gpu', '--disable-skia-runtime-opts', '--force-color-profile=srgb', '--allow-file-access-from-files']
+    : ['--force-color-profile=srgb', '--allow-file-access-from-files'];
+  const report = { renderer: '0.3.0', environment: { node: process.version, platform: os.platform(),
+    release: os.release(), arch: os.arch(), browser: null, browser_args: browserArgs,
+    color_profile: 'srgb', raster_mode: rasterMode },
+    resources: [], jobs: [], visual_review: 'not_performed', passed: true };
+  const saveReport = async () => {
+    await fs.mkdir(path.dirname(reportPath), { recursive:true });
+    await fs.writeFile(reportPath, JSON.stringify(report, null, 2)+'\n', { flag:'wx' });
+  };
+  const preflight = [];
+  if (batch.expected_outputs !== undefined) {
+    const coverage = { expected: batch.expected_outputs, actual: batch.jobs.map(job => job.output), passed: false };
+    report.expected_outputs = coverage;
+    try {
+      if (!Array.isArray(batch.expected_outputs)) throw new Error('expected_outputs 需要项目相对路径数组');
+      const expected = await Promise.all(batch.expected_outputs.map(name => local(name, true)));
+      if (new Set(expected).size !== expected.length || expected.length !== outputs.size || expected.some(name => !outputs.has(name))) {
+        throw new Error('expected_outputs 与 jobs.output 存在缺失、多余或重复');
+      }
+      coverage.passed = true;
+    } catch (error) { coverage.error = error.message; preflight.push(error.message); }
+  }
+  if (batch.resources !== undefined && !Array.isArray(batch.resources)) preflight.push('resources 需要数组');
+  const resourcePaths = new Set();
+  for (const resource of Array.isArray(batch.resources) ? batch.resources : []) {
+    const row = { path: resource?.path, expected_sha256: resource?.sha256, passed: false };
+    report.resources.push(row);
+    try {
+      if (typeof resource?.sha256 !== 'string' || !/^[a-f0-9]{64}$/i.test(resource.sha256)) throw new Error('资源 sha256 需要64位十六进制字符串');
+      const file = await local(resource.path);
+      if (resourcePaths.has(file)) throw new Error('冻结资源路径重复');
+      resourcePaths.add(file);
+      row.sha256 = sha(await fs.readFile(file));
+      if (row.sha256 !== resource.sha256.toLowerCase()) throw new Error('冻结资源哈希不符');
+      row.passed = true;
+    } catch (error) { row.error = error.message; preflight.push((row.path ?? '无效资源') + ': ' + error.message); }
+  }
+  if (preflight.length) {
+    report.passed = false; report.preflight_errors = preflight;
+    await saveReport(); process.stdout.write(JSON.stringify({ passed: false, preflight_errors: preflight })+'\n');
+    process.exitCode = 1; return;
+  }
+  const specifier = process.env.ASC_PLAYWRIGHT_MODULE;
+  const module = specifier ? await import(pathToFileURL(path.resolve(specifier)).href) : await import('playwright');
+  const playwright = module.chromium ? module : module.default;
   const browser = await playwright.chromium.launch({ headless: true, args: browserArgs,
     ...(process.env.ASC_BROWSER_EXECUTABLE ? { executablePath: process.env.ASC_BROWSER_EXECUTABLE } : {}) });
-  const report = { renderer: '0.1.0', environment: { node: process.version, platform: os.platform(),
-    release: os.release(), arch: os.arch(), browser: browser.version(), browser_args: browserArgs,
-    color_profile: 'srgb', raster_mode: rasterMode },
-    jobs: [], visual_review: 'not_performed', passed: true };
+  report.environment.browser = browser.version();
   try {
     for (const job of batch.jobs) {
       const row = { id: job.id, html: job.html, output: job.output, width: job.width, height: job.height,
@@ -110,6 +164,8 @@ async function main() {
         const page = await context.newPage();
         const errors = [];
         page.on('pageerror', error => errors.push(error.message));
+        page.on('requestfailed', request => errors.push('资源加载失败: ' + request.url() + ' (' + (request.failure()?.errorText ?? '未知错误') + ')'));
+        page.on('response', response => { if (response.status() >= 400) errors.push('资源响应失败: ' + response.status() + ' ' + response.url()); });
         page.setDefaultTimeout(job.timeout_ms ?? 30000);
         await page.goto(pathToFileURL(htmlPath).href, { waitUntil: 'load', timeout: job.timeout_ms ?? 30000 });
         if (job.ready_selector) await page.locator(job.ready_selector).waitFor({ state: 'visible' });
@@ -141,8 +197,61 @@ async function main() {
         }, { textSelector:job.text_selector ?? '[data-asc-text]',
           essentialSelector:job.essential_selector ?? '[data-asc-essential]', safe:job.safe_rect,
           width:job.width, height:job.height });
+        row.components = await page.evaluate(components => components.map(component => {
+          const result = { id: component.id, selector: component.selector, expected_rect: component.rect,
+            tolerance_px: component.tolerance_px ?? 0.02, styles: {}, errors: [], passed: false };
+          let nodes;
+          try { nodes = document.querySelectorAll(component.selector); }
+          catch (error) { result.errors.push('无效 selector: ' + error.message); return result; }
+          result.matches = nodes.length;
+          if (nodes.length !== 1) { result.errors.push('selector 必须恰好匹配一个元素'); return result; }
+          const element = nodes[0], bounds = element.getBoundingClientRect(), style = getComputedStyle(element);
+          result.rect = [bounds.x, bounds.y, bounds.width, bounds.height];
+          if (result.rect.some((value, index) => Math.abs(value - component.rect[index]) > result.tolerance_px)) result.errors.push('组件矩形偏离项目规范');
+          for (const [key, expected] of Object.entries(component.styles ?? {})) {
+            const value = key.includes('-') ? style.getPropertyValue(key) : style[key];
+            const actual = typeof value === 'string' ? value : '';
+            result.styles[key] = { expected, actual };
+            if (actual !== expected) result.errors.push('computed 样式不符: ' + key);
+          }
+          if (component.image_fit === 'equal-ratio') {
+            const natural = element instanceof HTMLImageElement ? [element.naturalWidth, element.naturalHeight]
+              : element instanceof HTMLCanvasElement ? [element.width, element.height] : null;
+            const number = key => Number.parseFloat(style[key]) || 0;
+            const inset = [number('paddingLeft') + number('paddingRight') + number('borderLeftWidth') + number('borderRightWidth'),
+              number('paddingTop') + number('paddingBottom') + number('borderTopWidth') + number('borderBottomWidth')];
+            const content = [Number.parseFloat(style.width), Number.parseFloat(style.height)].map((value, index) => value - (style.boxSizing === 'border-box' ? inset[index] : 0));
+            const fit = { policy: 'equal-ratio', natural, content_box: content, object_fit: style.objectFit,
+              ratio_tolerance: component.ratio_tolerance ?? 1e-6, ratio_error_unit: 'abs(content_ratio / natural_ratio - 1)' };
+            result.image_fit = fit;
+            if (!natural || natural.some(value => value <= 0) || content.some(value => !Number.isFinite(value) || value <= 0)) {
+              result.errors.push('equal-ratio 需要具有有效天然尺寸和内容盒的 img/canvas');
+            } else {
+              fit.ratio_error = Math.abs((content[0] / content[1]) / (natural[0] / natural[1]) - 1);
+              if (fit.ratio_error > fit.ratio_tolerance) result.errors.push('图片与CSS内容盒比例不一致');
+              if (style.objectFit === 'none' && content.some((value, index) => Math.abs(value - natural[index]) > result.tolerance_px)) result.errors.push('object-fit:none 会裁切或留白');
+              if (style.objectFit === 'scale-down' && content.some((value, index) => value > natural[index] + result.tolerance_px)) result.errors.push('object-fit:scale-down 会留白');
+            }
+            fit.transforms = [];
+            for (let node = element; node; node = node.parentElement) {
+              const css = getComputedStyle(node), matrix = new DOMMatrixReadOnly(css.transform === 'none' ? undefined : css.transform);
+              const scale = css.scale === 'none' ? [1, 1] : css.scale.split(/\s+/).map(Number);
+              if (scale.length === 1) scale.push(scale[0]);
+              const rotate = css.rotate;
+              if (!matrix.is2D || matrix.a <= 0 || Math.abs(matrix.a - matrix.d) > 1e-9 || Math.abs(matrix.b) > 1e-9 || Math.abs(matrix.c) > 1e-9 ||
+                  scale.length !== 2 || scale.some(value => !Number.isFinite(value) || value <= 0) || Math.abs(scale[0] - scale[1]) > 1e-9 ||
+                  !['none', '0deg'].includes(rotate) || css.perspective !== 'none') {
+                fit.transforms.push({ tag: node.tagName, id: node.id, transform: css.transform, scale: css.scale, rotate, perspective: css.perspective });
+              }
+            }
+            if (fit.transforms.length) result.errors.push('图片或祖先存在旋转、透视或非等比transform');
+          }
+          result.passed = result.errors.length === 0;
+          return result;
+        }), job.components ?? []);
         if (blocked.length) throw new Error('页面请求了未允许的远程 origin: ' + [...new Set(blocked)].join(', '));
-        if (errors.length) throw new Error('页面脚本错误: ' + errors.join('; '));
+        if (errors.length) throw new Error('页面脚本或资源错误: ' + errors.join('; '));
+        if (row.components.some(component => !component.passed)) throw new Error('组件规范核验失败，详见报告');
         if (row.layout.canvas_overflow || row.layout.text.some(t=>t.overflow) || row.layout.essential.some(t=>t.outside)) {
           throw new Error('测得画布、文字或安全区溢出，详见报告');
         }
@@ -154,6 +263,7 @@ async function main() {
           }
         }
         const raw = await page.screenshot({ type:'png', animations:'disabled', caret:'hide', omitBackground:false });
+        if (errors.length) throw new Error('页面脚本或资源错误: ' + errors.join('; '));
         const png = srgbPng(raw);
         const output = await local(job.output, true);
         await fs.mkdir(path.dirname(output), { recursive:true });
@@ -168,8 +278,7 @@ async function main() {
     }
   } finally {
     await browser.close();
-    await fs.mkdir(path.dirname(reportPath), { recursive:true });
-    await fs.writeFile(reportPath, JSON.stringify(report, null, 2)+'\n', { flag:'wx' });
+    await saveReport();
   }
   process.stdout.write(JSON.stringify({ passed:report.passed, jobs:report.jobs.map(j=>({id:j.id,passed:j.passed,error:j.error})) })+'\n');
   if (!report.passed) process.exitCode=1;

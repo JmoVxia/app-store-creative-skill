@@ -38,7 +38,9 @@ work/                        可再生缓存、运行日志、临时结果
 | active_baseline | 当前确认基准 ID，尚无确认时为 null |
 | validation | 实际完成／待验证／失败及证据，不用布尔值掩盖范围 |
 
-参数组建议结构：`value`、`unit`、`scope`、`source`、`fixed`、`allowed_range`、`adaptation_order`、`depends_on`、`confirmed_by`、`check`。`value` 可以是相关参数对象，不要求所有值都是数字。区分共享值、位置／设备／语言变体和明确例外。
+参数组建议结构：`value`、`unit`、`scope`、`source`、`fixed`、`allowed_range`、`adaptation_order`、`depends_on`、`confirmed_by`、`check`。`value` 可以是相关参数对象，不要求所有值都是数字。区分共享值、位置／设备／语言变体和明确例外；记录坐标转换与覆盖顺序。规范可引用项目独立配置，但同一参数只有一个权威来源，母版、内容页和导出器共同读取，详见[整套一致性](series-consistency.md)。
+
+从首轮构图开始，`targets` 与 `scenes` 联合覆盖全投放位置／设备／本地化／页序矩阵，每个组合指向输入素材、参数组、母版／渲染入口、预期规格和验证状态。实现可按项目组织，不要求新增固定 schema；已有合格成品只有在当前依赖指纹和验收仍有效时才能复用，文件名或 mtime 不能替代依赖证据。
 
 ## 轮次文件 rounds/<id>.json
 
@@ -64,7 +66,7 @@ work/                        可再生缓存、运行日志、临时结果
 - `source`：用户来源、采集配置、生成工具／提示词／参考、URL 与获取日期等实际适用信息。
 - `usage`：reference 或 delivery；互联网与第三方素材的使用依据、署名要求和再分发范围写在 `rights`。
 - `provenance`：输入素材 ID、处理方式、引擎／App 版本、job／status／manifest、输出关系。
-- `editable_regions`、`fixed_regions`、焦点、完整边界、最小清晰度与替换契约。
+- `editable_regions`、`fixed_regions`、焦点、完整控件／结果边界 ROI、源内留白、最小清晰度与替换契约。机身框记录原件屏幕开口，遮罩记录 alpha／亮度语义及派生关系，避免来源相同而解释方式不同。
 
 `kind` 可使用 user、native-ui、engine-output、authored-content、generated-art、internet、font；需要其他类型时说明含义。参照证据、真实输出、艺术表达不能混称。敏感原件是否允许外发取决于本次明确授权及工具规则，不能从来源类型推断。
 
