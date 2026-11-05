@@ -8,11 +8,9 @@ The skill does not prescribe an app's style, screenshot count, order or fixed la
 
 ## Workflow
 
-For rejected screenshots or targeted edits to an approved design, start with the [screenshot repair workflow (Chinese)](references/screenshot-repair.md). Bring the review message and existing set, then request one final-size PNG for the affected feature before expanding to other devices or languages.
+Start with the benefit each page should communicate and the moment in the app that demonstrates it. Plan ordinary screenshots separately for each device and localization so that a clear majority will show the app in use. Use this storyboard to explore copy and visual directions.
 
-Listen to the user → clarify and confirm understanding → inspect supplied code, documents and assets → research comparable products and visual references → prepare localized copy and device constraints → compare overall directions → approve representative assets and refine related details → review the integrated design → produce approved variants → inspect every output and request final confirmation.
-
-Use modules as needed rather than restarting the entire process. Each round resolves a related group of decisions using questions, alternatives or visual samples. Preserve approvals, rejection reasons and dependencies. Keep approved baselines separate from candidates and reopen only affected decisions.
+Lay out the shared HTML master, then prepare inputs and capture the app for the target device and language. Review one final-size PNG with real content before extending the design across the set. Recount the pages that show the app in use from the finished files, then inspect the full-size images and detail crops. Existing designs and review feedback enter at the earliest affected step. [Storyboarding](references/design-rounds.md) · [Production](references/material-production.md) · [Quality checks](references/quality.md)
 
 - Screenshots, Header and Search Results share brand language but receive purpose-specific compositions.
 - Sources may include user assets, real app captures, scripts, ImageGen and internet resources. Track provenance and permitted usage. Never fabricate functional evidence.
@@ -32,8 +30,9 @@ git clone --depth 1 https://github.com/JmoVxia/app-store-creative-skill.git \
 Alternatively, use the environment's skill-installer for this repository's root. Do not overwrite an existing installation without reviewing its version and local changes. The skill is available on the next conversation turn:
 
 ```text
-Use $app-store-creative-skill. First listen to my app description,
-then guide me through small rounds of questions, samples and approvals.
+Use $app-store-creative-skill to create screenshots for my new app.
+Storyboard the benefits and real app states, lay out the shared master,
+then show me one final-size PNG with real content.
 ```
 
 For an existing project, provide its production directory and current goal, such as adding a language, replacing one asset or continuing an unfinished review. Conversation language, app UI languages and store creative languages are separate settings.
@@ -72,7 +71,7 @@ Each app owns its specifications, review history, source assets, captures and ou
 
 ## Verification status
 
-See [validation/status.json](validation/status.json) for actual scope and limitations. Initial work focuses on macOS / Codex, original-project replay, image inspection and repeated rendering. The independent app trial is pending a user-provided project. Other platforms and app-specific capture adapters must not be described as verified without evidence.
+See [validation/status.json](validation/status.json) for the original tool validation and limitations. Initial work focuses on macOS / Codex, original-project replay, image inspection and repeated rendering. The independent app trial is pending a user-provided project. Other platforms and app-specific capture adapters must not be described as verified without evidence.
 
 Current evidence: 54 existing approved images passed format checks; six horizontal creative pairs rendered through the fixed CPU path had zero changed pixels across the full canvas. Replay against historical browser outputs differed by at most one channel level, so strict historical pixel identity did not pass. Do not silently migrate existing projects to the new path. See [sanitized results](validation/results.json); original project assets are not included.
 
