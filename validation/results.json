@@ -207,5 +207,54 @@
       "scripts/audit_images.py": "ff032f46bcf5b973af2815d8a7d28bcc00f35c63f5070a27b7b0d114ded8dd14",
       "scripts/project.py": "49d03f6826ed03f20f6a6b7b804862856858e2ca3bc51a933cc85d6d29eb5a08"
     }
+  },
+  "poster_production_v040": {
+    "skill_version": "0.4.0",
+    "recorded_at": "2026-11-06",
+    "starter": {
+      "rendered": 4,
+      "audited": 4,
+      "failure_cases": 6,
+      "migration_byte_identical": 4
+    },
+    "independent_forward": {
+      "rendered": 4,
+      "components_per_page": 19,
+      "source_pixel_regions": 12,
+      "source_temporarily_hidden_during_migration": true,
+      "migration_byte_identical": 4,
+      "visual_review": "public geometric exercise only"
+    },
+    "project_migration": {
+      "matrix_hashes": 48,
+      "exact_replay_images": 3,
+      "material_hashes_after_rebuild": 62
+    },
+    "store_delivery": {
+      "screenshots": 48,
+      "groups": 6,
+      "state": "COMPLETE",
+      "source_checksum_size_dimensions_order_verified": true,
+      "review_submitted": false
+    },
+    "environment": {
+      "node": "v23.11.0",
+      "playwright": "1.62.1",
+      "browser": "156.0.8078.80",
+      "default_browser_missing": true,
+      "resolution": "已按文档使用宿主现有浏览器，无需安装"
+    },
+    "not_performed": [
+      "新的App编译或测试",
+      "新的原生采集",
+      "独立真实App生产实证",
+      "App审核提交或通过验证"
+    ],
+    "tool_sha256": {
+      "scripts/poster.mjs": "9c337f7a642821534e48db85ac23eda82ef67e4adb1f949908432f3b54c641c5",
+      "assets/poster/master.html": "efd352749f4f1af5a1a56555869804a36ec4a1103cb3d135d420fc1e4ca87c2b",
+      "assets/poster/poster.json": "35d71e37cd818394462228c422e6c9b788e4b1e82a0afa26bae80a539f590f6a"
+    },
+    "evidence_policy": "只公开去标识统计；不包含项目原图、私有路径、联系人或凭证。"
   }
 }

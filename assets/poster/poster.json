@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "template": "poster/master.html",
+  "rasterMode": "stable-cpu",
+  "tokens": {
+    "background": "#fffefc", "ink": "#11151a", "muted": "#485664", "accent": "#C64B33",
+    "fontFamily": "-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif",
+    "paperPadding": 24, "paperRadius": 18, "paperBorder": "#e0e7ed", "paperShadow": "0 8px 24px rgba(44,64,81,.075)",
+    "badgeSize": 44, "badgeRadius": 8, "badgeFont": 28, "badgeGap": 12,
+    "arrowShaft": 12, "arrowHeadWidth": 22, "arrowHeadHeight": 34, "arrowInset": 8,
+    "titleFont": 122, "subtitleFont": 52, "stepTitleHeight": 44, "stepTitleGap": 12, "stepTitleFont": 30
+  },
+  "devices": {
+    "iPhone": { "canvas": [1320,2868], "headerHeight": 580, "titleY": 110, "subtitleY": 420, "labelY": 588, "labelHeight": 52, "bodyTop": 648, "cardWidth": 580, "columnGap": 64, "groupHeight": 2156, "inputGap": 32, "stepGap": 32, "labelFont": 38, "stepTitleFont": 30 },
+    "iPad": { "canvas": [2064,2752], "headerHeight": 580, "titleY": 110, "subtitleY": 420, "labelY": 588, "labelHeight": 52, "bodyTop": 648, "cardWidth": 684, "columnGap": 104, "groupHeight": 2056, "inputGap": 36, "stepGap": 36, "labelFont": 42, "stepTitleFont": 34 }
+  },
+  "locales": {
+    "zh-Hans": {
+      "browserLocale": "zh-CN",
+      "pages": {
+        "01": {
+          "layout": "conversion", "title": ["替换为本页收益", "第二行短标题"], "subtitle": "替换为简短副标题", "labels": ["乱序截图", "完整长图"],
+          "devices": {
+            "iPhone": { "result": "", "inputs": [{"number":3,"asset":""},{"number":1,"asset":""},{"number":4,"asset":""},{"number":2,"asset":""}] },
+            "iPad": { "result": "", "inputs": [{"number":3,"asset":""},{"number":1,"asset":""},{"number":4,"asset":""},{"number":2,"asset":""}] }
+          }
+        },
+        "02": {
+          "layout": "steps", "title": ["替换为本页收益", "第二行短标题"], "subtitle": "替换为简短副标题", "labels": ["关键步骤", "完整结果"],
+          "devices": {
+            "iPhone": { "result": "", "steps": [{"title":"第一步","asset":""},{"title":"第二步","asset":""},{"title":"第三步","asset":""}] },
+            "iPad": { "result": "", "steps": [{"title":"第一步","asset":""},{"title":"第二步","asset":""},{"title":"第三步","asset":""}] }
+          }
+        }
+      }
+    }
+  }
+}

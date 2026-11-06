@@ -1,6 +1,6 @@
 {
-  "skill_version": "0.3.0",
-  "updated_at": "2026-11-05",
+  "skill_version": "0.4.0",
+  "updated_at": "2026-11-06",
   "checks": [
     {
       "id": "skill_structure",
@@ -61,6 +61,45 @@
       "repeat_byte_identical": true,
       "file_mask_byte_identical": true,
       "scope": "两设备两语言自编排版演练；不替代独立真实App项目实证"
+    },
+    {
+      "id": "poster_starter_behavior",
+      "status": "passed",
+      "validated_skill_version": "0.4.0",
+      "combinations": 4,
+      "negative_cases": 6,
+      "moved_source_byte_identical": true,
+      "scope": "公开几何素材；两设备、转换/步骤两页；复用既有渲染和图片审计器"
+    },
+    {
+      "id": "independent_poster_forward_exercise",
+      "status": "passed",
+      "validated_skill_version": "0.4.0",
+      "combinations": 4,
+      "components_per_page": 19,
+      "source_pixel_regions": 12,
+      "moved_source_byte_identical": true,
+      "scope": "独立使用者仅按技能说明出图并隔离迁移；不替代真实App或审美确认"
+    },
+    {
+      "id": "final_project_source_migration",
+      "status": "passed",
+      "validated_skill_version": "0.4.0",
+      "matrix_files_hash_verified": 48,
+      "representative_exact_replays": 3,
+      "rebuilt_material_hashes": 62,
+      "scope": "既有定稿制作源自包含迁移，复现三张逐字节一致；无新App采集"
+    },
+    {
+      "id": "project_screenshot_upload_readback",
+      "status": "passed",
+      "validated_skill_version": "0.4.0",
+      "screenshots": 48,
+      "groups": 6,
+      "delivery_state": "COMPLETE",
+      "checksum_size_dimensions_order_verified": true,
+      "submitted_for_review": false,
+      "scope": "项目级48图上传及回读；不提供通用上传脚本或证明审核通过"
     }
   ],
   "platforms": {
@@ -73,7 +112,7 @@
     "没有在本版本运行新的 App 编译、测试或原生采集",
     "自动检查不代替逐张视觉自审和用户确认",
     "相同提示词重新生成 ImageGen 素材不保证一致",
-    "没有在 App Store Connect 提交或验证审核结果",
+    "没有在本版本提交App审核或验证审核结果；项目级截图上传回读不代表通用上传器能力",
     "历史浏览器路径回放有最多1色阶差异，严格零差异未通过；新CPU路径重复生产零差异，不代表与历史成图相同。",
     "带掩码检查只覆盖显式选区；外轮廓、内部留白、原件映射等语义由项目定义，不能据脚本通过宣称无任何遗漏。"
   ],

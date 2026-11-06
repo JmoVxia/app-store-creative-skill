@@ -23,6 +23,10 @@ python3 scripts/project.py snapshot /path/to/app-materials --id baseline-001 --r
 
 init 拒绝覆盖已有状态。snapshot 只接受已记录真实用户确认且无未决问题的轮次，核对所有引用文件哈希；它不替代用户确认，也不表示整套已通过。快照保留状态副本和引用指纹，仍需保留引用文件。旧基准不可覆盖。
 
+## 海报起稿
+
+转换型、步骤型海报可用`poster.mjs init/prepare`从一份参数生成可编辑网页和既有执行器的批次；命令、素材槽与失败修复路径见[海报生产](poster-production.md)。它不生成真实App界面，不自动填入虚假素材，也不替代首样审美判断。
+
 ## HTML 批量渲染
 
 按项目的已确认构图编写 HTML/CSS，不使用固定主题母版。可编辑文字加 `data-asc-text`，需要安全区检查的元素加 `data-asc-essential`。使用明确背景、字体及语言属性，确认长内容与图片比例。

@@ -45,6 +45,7 @@ git clone --depth 1 https://github.com/JmoVxia/app-store-creative-skill.git \
 | 能力 | 当前提供 |
 | --- | --- |
 | 方法与模块 | `SKILL.md` 和按需读取的 `references/` |
+| 转换型／步骤型海报起稿、统一网格及批次准备 | Node.js 脚本 `scripts/poster.mjs` 与可编辑网页母版 |
 | 项目状态、指纹、基准 | Python 标准库脚本 `scripts/project.py` |
 | 本地 HTML 批量渲染、矩阵和组件几何／样式／比例约束 | Node.js／Playwright 脚本 `scripts/render.mjs` |
 | 图片规格、掩码区域／背景外溢、目录覆盖及资源哈希 | Pillow 脚本 `scripts/audit_images.py` |
@@ -77,6 +78,8 @@ python3 scripts/project.py status /path/to/app-materials
 当前实证：54 张既有定稿格式检查通过；固定 CPU 路径下六组横图重复渲染，整图 0 像素差异。历史浏览器路径与原定稿回放存在最多 1 色阶差异，严格零差异未通过；新路径不能未经确认替换旧项目。统计见 [验证结果](validation/results.json)，不包含原项目素材。
 
 0.3.0 增加整套一致性规范和可选工具契约：33 项图片审计用例、26 次隔离 HTML 验证符合预期；用增强后的通用脚本对既有 48 张最终 PNG 完成 90 项掩码比较、384 项四角四边检查。独立双设备／双语言自编排版演练完成 4 组出图与重复字节一致性核验，并据此修复本地 CSS 遮罩空屏误通过。该演练不是独立真实 App 或商店提交实证；不公开项目原件和私人路径。
+
+0.4.0 将海报经验落为可执行 `init → prepare → render → audit` 入口：同一参数计算两设备、转换与步骤两种布局，完整约束卡宽、内距、角标、箭头和图片比例。4张演练出图、6个失败用例、独立使用者的4张出图与迁目录逐字节复现均通过；原项目制作源迁移复现3张定稿逐字节一致。新增Header／搜索版位安全区测量、图像主次和定稿清理方法。详见[海报生产](references/poster-production.md)与[创意版位](references/creative-placements.md)。这些结果不承诺每个新App审美一次通过。
 
 脚本通过不代表视觉或用户确认。静态检查、网页渲染、真实 App 采集、引擎运行、编译／测试和商店提交分别记录。最终素材仍需按目标位置的当次 Apple 官方规格核对。
 
