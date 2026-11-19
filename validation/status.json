@@ -1,6 +1,6 @@
 {
-  "skill_version": "0.4.0",
-  "updated_at": "2026-11-06",
+  "skill_version": "0.5.0",
+  "updated_at": "2026-11-19",
   "checks": [
     {
       "id": "skill_structure",
@@ -100,6 +100,14 @@
       "checksum_size_dimensions_order_verified": true,
       "submitted_for_review": false,
       "scope": "项目级48图上传及回读；不提供通用上传脚本或证明审核通过"
+    },
+    {
+      "id": "acceptance_gates_and_coach_recapture",
+      "status": "passed",
+      "validated_skill_version": "0.5.0",
+      "acceptance_categories": 41,
+      "replacement_images": 2,
+      "scope": "既有 iOS 项目单页双设备实采。识别旧图的引导层，以已验证安装包重采。检查状态稳定、界面层级、最终 PNG 和机框内差分。通用门槛为流程规则，未实现通用引导识别器。"
     }
   ],
   "platforms": {
@@ -109,7 +117,7 @@
   },
   "limitations": [
     "没有通用原生 App 采集适配器；按具体项目和授权接入",
-    "没有在本版本运行新的 App 编译、测试或原生采集",
+    "双设备采集沿用已核验安装包。本次技能更新未重新编译 App 或运行 App 测试套件。",
     "自动检查不代替逐张视觉自审和用户确认",
     "相同提示词重新生成 ImageGen 素材不保证一致",
     "没有在本版本提交App审核或验证审核结果；项目级截图上传回读不代表通用上传器能力",

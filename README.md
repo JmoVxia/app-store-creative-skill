@@ -10,7 +10,7 @@
 
 从产品想解决的问题开始，为每页选一个有说服力的场景，再决定文案、配色和构图。普通截图在分镜阶段就按设备与本地化安排足够的真实操作画面，把功能和结果放在读者看得清的位置。
 
-先建立整套规范，再搭可复用网页母版，从槽位反推素材；用目标设备和语言的真实 App 界面出第一张最终尺寸 PNG。首样已按交付标准检查四角四边、比例、间距与完整控件，确认后扩到整套，逐组复算实际使用页，逐张检查语言、取景及像素细节。已有定稿和审核反馈从对应步骤继续。[设计与分镜](references/design-rounds.md) · [整套一致性](references/series-consistency.md) · [素材与生产](references/material-production.md) · [分层验收](references/quality.md)
+先建立整套规范，再搭可复用网页母版，从槽位反推素材；用目标设备和语言的真实 App 界面出第一张最终尺寸 PNG。首样已按交付标准检查四角四边、比例、间距与完整控件，确认后扩到整套，逐组复算实际使用页，逐张检查语言、取景及像素细节。已有定稿和审核反馈从对应步骤继续。[设计与分镜](references/design-rounds.md) · [整套一致性](references/series-consistency.md) · [素材与生产](references/material-production.md) · [分层验收](references/quality.md) · [41 类交付门槛](references/acceptance-gates.md)
 
 - 普通截图、Header、Search Results 共享风格，按各自用途独立构图。
 - 素材可来自用户、真实 App／模拟器、脚本、ImageGen 和互联网；来源与用途可追溯，不伪造功能结果。
