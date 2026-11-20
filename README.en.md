@@ -17,6 +17,7 @@ Define the series specification before laying out the shared HTML master, then p
 - Consider all target languages and devices early. Approve the master and risk-based samples before batch production; escalate adaptations outside approved rules.
 - Lock copy, fonts, layouts, assets and environment. Repeating an AI prompt does not guarantee the same image; reuse approved artwork.
 - Distinguish device housing, screen viewport, native workspace and authored-content spacing. Phone and tablet retain their own proportions and status bars. Check Apple's product-image rules when using realistic device bezels and freeze the chosen original; never let content escape the frame or stretch/crop controls to hide native differences.
+- Budget effective pixels for text and magnified details through the source, native export, crop, and final slot. Verify each functional comparison against matching native before and after outputs.
 - Apply one parameter source and verification path to the full delivery matrix. Copied outputs and modification times are not validation. Check fixed layers, corner spill, empty masks, resource drift, missing pages and unintended duplicates, with explicit machine and visual coverage.
 - Check current official specifications at project start and before delivery. Existing projects do not silently adopt skill or tool updates.
 
